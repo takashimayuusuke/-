@@ -12,7 +12,7 @@
 </div>
 
 <div class="messages">
-  <div class="message">
+  <%# <div class="message">
     <div class="upper-message">
       <div class="message-user">
         Tom
@@ -42,7 +42,10 @@
         こんばんは
       </div>
     </div>
-  </div>
+  </div> %>
+  <%# 以下に変更 %>
+    <%= render partial: 'message', collection: @messages %>
+    <%# このように記述することで、_message.html.erbを部分テンプレートとして、読み込むことができる。 %>
 </div>
 
 <%# <div class="form">

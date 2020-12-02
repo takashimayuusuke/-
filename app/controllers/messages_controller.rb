@@ -5,6 +5,9 @@ class MessagesController < ApplicationController
     @message = Message.new
     # Room.find(params[:room_id])とすることでparamsに含まれているroom_idを代入
     @room =Room.find(params[:room_id])
+    # チャットルームに紐づいている全てのメッセージ(@room.messages)を@mesagesと定義
+    @messages = @room.messages.includes(:user)
+    # includesメソッドでN＋1問題を解消
   end
 
   def create
@@ -17,15 +20,18 @@ class MessagesController < ApplicationController
       redirect_to room_messages_path (@room)
       # messagesコントローラーのindexアクションに再度リクエストを送信し、新たにインスタンス変数を生成
     else
+      @messages = @room.messages.includes(:user)
+      # includesメソッドでN＋1問題を解消
+
       render :index
       # indexアクションのインスタンス変数はそのままindex.html.erbに渡され、同じページに戻る。
     end
   end
 
   # プライベートメソッドとしてcontentをメッセージテーブルへ保存できるようにする
-private
+  private
   def message_params
     params.require(:message).permit(:content).merge(user_id: current_user.id)
     # パラメーターの中にログインしているユーザーのidと紐づいているcontentを受け取れるように許可している
-      end
+  end
 end
