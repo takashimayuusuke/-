@@ -3,6 +3,7 @@ class Message < ApplicationRecord
   belongs_to :user
   # roomテーブルに対してのアソシエーション
   belongs_to :room
+  has_one_attached :image
 
   validates :content, presence: true
     # 空の状態で保存できなくする
