@@ -122,3 +122,8 @@ select {
   height: 80px;
   width: 100%;
 }
+
+/* 「新たに追加された要素だけを非表示」とするには、displayプロパティへ指定する値はcontentsが適している */
+.field_with_errors {
+  display: contents
+}
