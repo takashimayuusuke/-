@@ -1,18 +1,21 @@
 <div class="chat-header">
   <div class="left-header">
       <div class="header-title">
-        hogehuga
+      <%= @room.name %>
+      <%# @roomに代入されているレコードの情報からチャットルーム名を表示する %>
       </div>
   </div>
   <div class="right-header">
     <div class="header-button">
-      <a href="#">チャットを終了する</a>
+      <%# <a href="#">チャットを終了する</a> %>
+      <%# 以下に変更 %>
+      <%= link_to "チャットを終了する", room_path(@room), method:  :delete %>
     </div>
   </div>
 </div>
 
 <div class="messages">
-  <div class="message">
+  <%# <div class="message">
     <div class="upper-message">
       <div class="message-user">
         Tom
@@ -42,10 +45,13 @@
         こんばんは
       </div>
     </div>
-  </div>
+  </div> %>
+  <%# 以下に変更 %>
+    <%= render partial: 'message', collection: @messages %>
+    <%# このように記述することで、_message.html.erbを部分テンプレートとして、読み込むことができる。 %>
 </div>
 
-<div class="form">
+<%# <div class="form">
   <div class="form-input">
     <input class="form-message" placeholder="type a message" class="message_form">
     <label class="form-image">
@@ -55,4 +61,18 @@
   </div>
 <input class="form-submit" type="submit" value="送信">
 
-</div>
+</div> %>
+<%# 以下に変更 %>
+
+<%= form_with model: [@room, @message], class: 'form', local: true do |f| %>
+  <div class="form-input">
+    <%= f.text_field :content, class: 'form-message', placeholder: 'type a message' %>
+    <label class="form-image">
+      <span class="image-file">画像</span>
+      <%= f.file_field :image, class: 'hidden' %>
+    </label>
+  </div>
+  <%= f.submit '送信', class: 'form-submit' %>
+<% end %>
+
+<%# messageのルーティングがroomsにネストされているため、form_withの引数に@room,@messageを渡している %>
